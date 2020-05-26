@@ -1,6 +1,31 @@
-# Custom
+# Note: some packages originally listed on archiso have been rearranged for better organization.
+
+# Environment
 tmux
+
+# Text editors
+vi
 neovim
+emacs
+nano
+kakoune
+
+# Internet
+elinks
+networkmanager
+
+# System utilities
+bashtop
+
+# Applications
+ranger
+
+# Dependencies
+curl
+lm_sensors
+sysstat
+python-psutil
+zsh-syntax-highlighting
 
 # Base
 arch-install-scripts
@@ -19,7 +44,6 @@ dmraid
 dnsmasq
 dnsutils
 dosfstools
-elinks
 ethtool
 exfat-utils
 f2fs-tools
@@ -45,7 +69,6 @@ man-pages
 mc
 mdadm
 mtools
-nano
 ndisc6
 netctl
 nfs-utils
@@ -73,7 +96,6 @@ tcpdump
 testdisk
 usb_modeswitch
 usbutils
-vi
 vpnc
 wget
 wireless-regdb
