@@ -5,17 +5,22 @@ tmux
 
 # Text editors
 vi
+vim
 neovim
+kakoune
+vis
 emacs
 nano
-kakoune
 
 # Internet
 elinks
+w3m
 networkmanager
 
 # System utilities
 bashtop
+htop
+neofetch
 
 # Applications
 ranger
@@ -26,6 +31,7 @@ lm_sensors
 sysstat
 python-psutil
 zsh-syntax-highlighting
+zsh-theme-powerlevel10k
 
 # Base
 arch-install-scripts
