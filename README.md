@@ -14,7 +14,17 @@ If you want to escape distributions with complex desktop environments and a hund
 
 ## Compile
 
-_Coming soon..._
+The first step is to clone the repository and enter it:
+
+`git clone https://github.com/PandaFoss/ATUI.git`
+
+`cd ATUI`
+
+Once this is done, simply run (with `sudo` or as _root_):
+
+`sudo bash build.sh`
+
+And that's it, the script will check the dependencies and start building the ISO. Once the process is finished, the file will be in the _out_ folder.
 
 ## Contribute
 
