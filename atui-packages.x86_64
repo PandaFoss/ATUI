@@ -1,0 +1,34 @@
+# Note: some packages originally listed on archiso have been rearranged for better organization.
+
+# Environment
+tmux
+
+# Text editors
+vi
+vim
+neovim
+kakoune
+vis
+emacs
+nano
+
+# Internet
+elinks
+w3m
+networkmanager
+
+# System utilities
+bashtop
+htop
+neofetch
+
+# Applications
+ranger
+
+# Dependencies
+curl
+lm_sensors
+sysstat
+python-psutil
+zsh-syntax-highlighting
+zsh-theme-powerlevel10k
