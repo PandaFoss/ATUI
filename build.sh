@@ -75,12 +75,17 @@ profiledef_gen() {
 EOF
 }
 
+# Generate ISO image
+geniso() {
+    sudo mkarchiso -v "${BUILD_DIR}" command_iso
+}
+
 main() {
     check_root
     check_archiso
     create_build_dir
     profiledef_gen
-    sudo mkarchiso -v "${BUILD_DIR}" command_iso
+    geniso
 }
 
 main
