@@ -72,12 +72,31 @@ main_menu() {
         echo ""
     fi
 }
-main_menu
+#main_menu
 
 parse_desktop_files() {
     for i in $(ls /usr/share/applications/); do
-        if cat /usr/share/applications/$i | grep -q 'Terminal=true'; then 
-            echo $i
+        if grep -q 'Terminal=true' "/usr/share/applications/${i}"; then
+            echo "${i}"
         fi
     done
+}
+parse_desktop_files
+
+# Get main category of desktop file
+# $1 desktop file absolute path
+main_category() {
+    local localpath=$1
+    local aux
+    aux=$(grep 'Categories' "${localpath}")
+    CATEGORY=${${aux%%;*}#*=}
+}
+
+# Get name of desktop file
+# $1 desktop file absolute path
+name() {
+    local localpath=$1
+    local aux
+    aux=$(grep 'Categories' "${localpath}")
+    NAME=${aux#*=}
 }
