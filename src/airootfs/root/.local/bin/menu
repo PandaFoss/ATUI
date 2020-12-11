@@ -1,0 +1,83 @@
+#!/usr/bin/bash
+
+ANS=/tmp/ans                # dialog answer output file
+touch ${ANS}
+# Categories
+## AudioVideo Audio Video Development Education Game Graphics Network Office Science Settings System Utility
+
+dlg() {
+    local var="$1"   # assign output from dialog to var
+    local dlg_t="$2" # dialog type (menu, check, input)
+    local title="$3" # dialog title
+    local body="$4"  # dialog message
+    local n=0        # number of items to display for menu and check dialogs
+
+    shift 4  # shift off args assigned above
+
+    # adjust n when passed a large list
+    local l=$((LINES - 20))
+    (( ($# / 2) > l )) && n=$l
+
+    case "$dlg_t" in
+            main)
+                    dialog --no-items --title "-| ${title} |-" --menu "${body}" 0 0 $n "$@" 2> "$ANS" || return 1
+                    ;;
+    esac
+    # if answer file isn't empty read from it into $var
+    [[ -s "$ANS" ]] && printf -v "$var" "%s" "$(< "$ANS")"
+}
+
+main_menu() {
+    # Show application categories and parse each one
+    dlg OPTION main "Main menu" ""                                      \
+                    "Audio"                                             \
+                    "Development"                                       \
+                    "Education"                                         \
+                    "Game"                                              \
+                    "Graphics"                                          \
+                    "Network"                                           \
+                    "Office"                                            \
+                    "Science"                                           \
+                    "Settings"                                          \
+                    "System Utility"
+    if [[ "${OPTION}" == "Audio" ]]; then
+        #TODO
+        echo ""
+    elif [[ "${OPTION}" == "Development" ]]; then
+        #TODO
+        echo ""
+    elif [[ "${OPTION}" == "Education" ]]; then
+        #TODO
+        echo ""
+    elif [[ "${OPTION}" == "Game" ]]; then
+        #TODO
+        echo ""
+    elif [[ "${OPTION}" == "Graphics" ]]; then
+        #TODO
+        echo ""
+    elif [[ "${OPTION}" == "Network" ]]; then
+        #TODO
+        echo ""
+    elif [[ "${OPTION}" == "Office" ]]; then
+        #TODO
+        echo ""
+    elif [[ "${OPTION}" == "Science" ]]; then
+        #TODO
+        echo ""
+    elif [[ "${OPTION}" == "Settings" ]]; then
+        #TODO
+        echo ""
+    elif [[ "${OPTION}" == "System Utility" ]]; then
+        #TODO
+        echo ""
+    fi
+}
+main_menu
+
+parse_desktop_files() {
+    for i in $(ls /usr/share/applications/); do
+        if cat /usr/share/applications/$i | grep -q 'Terminal=true'; then 
+            echo $i
+        fi
+    done
+}
