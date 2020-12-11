@@ -1,3 +1,6 @@
 # Archiso process folders
 work
 out
+
+# ATUI build stuff
+atui_build
