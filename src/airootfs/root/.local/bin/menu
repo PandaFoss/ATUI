@@ -7,6 +7,80 @@ touch ${ANS}
 # Categories
 ## AudioVideo Audio Video Development Education Game Graphics Network Office Science Settings System Utility
 
+# Get an array with all the desktop files
+# Return DESKTOP_FILES array
+get_desktop_files() {
+    for file in /usr/share/applications/*.desktop; do
+        if grep -q 'Terminal=true' "${file}"; then
+            DESKTOP_FILES=("${DESKTOP_FILES[@]}" "${file}")
+        fi
+    done
+    for file in "${HOME}"/.local/share/applications/*.desktop; do
+        if grep -q 'Terminal=true' "${file}"; then
+            DESKTOP_FILES=("${DESKTOP_FILES[@]}" "${file}")
+        fi
+    done
+}
+
+
+parse_desktop_files() {
+    get_desktop_files
+    for file in "${DESKTOP_FILES[@]}"; do
+        get_main_category "${file}"
+        if [[ "${CATEGORY}" == "Audio" ]]; then
+            AUDIO=("${AUDIO[@]}" "${file}")
+        elif [[ "${CATEGORY}" == "Development" ]]; then
+            DEVELOPMENT=("${DEVELOPMENT[@]}" "${file}")
+        elif [[ "${CATEGORY}" == "Education" ]]; then
+            EDUCATION=("${EDUCATION[@]}" "${file}")
+        elif [[ "${CATEGORY}" == "Game" ]]; then
+            GAME=("${GAME[@]}" "${file}")
+        elif [[ "${CATEGORY}" == "Graphics" ]]; then
+            GRAPHICS=("${GRAPHICS[@]}" "${file}")
+        elif [[ "${CATEGORY}" == "Network" ]]; then
+            NETWORK=("${NETWORK[@]}" "${file}")
+        elif [[ "${CATEGORY}" == "Office" ]]; then
+            OFFICE=("${OFFICE[@]}" "${file}")
+        elif [[ "${CATEGORY}" == "Science" ]]; then
+            SCIENCE=("${SCIENCE[@]}" "${file}")
+        elif [[ "${CATEGORY}" == "Settings" ]]; then
+            SETTINGS=("${SETTINGS[@]}" "${file}")
+        elif [[ "${CATEGORY}" == "System Utility" ]]; then
+            SYSTEM_UTILITY=("${SYSTEM_UTILITY[@]}" "${file}")
+        fi
+    done
+}
+
+# Get main category of desktop file
+# $1 desktop file absolute path
+# Return CATEGORY with the category of desktop file
+get_main_category() {
+    local localpath=$1
+    local aux
+    aux=$(grep 'Categories' "${localpath}")
+    CATEGORY=${${aux%%;*}#*=}
+}
+
+# Get name of desktop file
+# $1 desktop file absolute path
+# Return NAME with the name of the program in the desktop file
+get_name() {
+    local localpath=$1
+    local aux
+    aux=$(grep 'Name' "${localpath}")
+    NAME=${aux#*=}
+}
+
+# Get de executable of desktop file
+# $1 desktop file absolute path
+# Return EXECUTABLE with the executable
+get_exec() {
+    local localpath=$1
+    local aux
+    aux=$(grep 'TryExec' "${localpath}" || grep 'Exec' "${localpath}")
+    EXECUTABLE=${aux#*=}
+}
+
 dlg() {
     local var="$1"   # assign output from dialog to var
     local dlg_t="$2" # dialog type (menu, check, input)
@@ -76,53 +150,3 @@ main_menu() {
 }
 #main_menu
 
-# Get an array with all the desktop files
-# Return DESKTOP_FILES array
-get_desktop_files() {
-    for file in /usr/share/applications/*.desktop; do
-        if grep -q 'Terminal=true' "${file}"; then
-            DESKTOP_FILES=("${DESKTOP_FILES[@]}" "${file}")
-        fi
-    done
-    for file in "${HOME}"/.local/share/applications/*.desktop; do
-        if grep -q 'Terminal=true' "${file}"; then
-            DESKTOP_FILES=("${DESKTOP_FILES[@]}" "${file}")
-        fi
-    done
-}
-
-
-parse_desktop_files() {
-    get_desktop_files
-    #TODO
-}
-
-# Get main category of desktop file
-# $1 desktop file absolute path
-# Return CATEGORY with the category of desktop file
-get_main_category() {
-    local localpath=$1
-    local aux
-    aux=$(grep 'Categories' "${localpath}")
-    CATEGORY=${${aux%%;*}#*=}
-}
-
-# Get name of desktop file
-# $1 desktop file absolute path
-# Return NAME with the name of the program in the desktop file
-get_name() {
-    local localpath=$1
-    local aux
-    aux=$(grep 'Name' "${localpath}")
-    NAME=${aux#*=}
-}
-
-# Get de executable of desktop file
-# $1 desktop file absolute path
-# Return EXECUTABLE with the executable
-get_exec() {
-    local localpath=$1
-    local aux
-    aux=$(grep 'TryExec' "${localpath}" || grep 'Exec' "${localpath}")
-    EXECUTABLE=${aux#*=}
-}
