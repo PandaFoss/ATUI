@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+shopt -s nullglob
+
 ANS=/tmp/ans                # dialog answer output file
 touch ${ANS}
 # Categories
@@ -74,18 +76,31 @@ main_menu() {
 }
 #main_menu
 
-parse_desktop_files() {
-    for i in $(ls /usr/share/applications/); do
-        if grep -q 'Terminal=true' "/usr/share/applications/${i}"; then
-            echo "${i}"
+# Get an array with all the desktop files
+# Return DESKTOP_FILES array
+get_desktop_files() {
+    for file in /usr/share/applications/*.desktop; do
+        if grep -q 'Terminal=true' "${file}"; then
+            DESKTOP_FILES=("${DESKTOP_FILES[@]}" "${file}")
+        fi
+    done
+    for file in "${HOME}"/.local/share/applications/*.desktop; do
+        if grep -q 'Terminal=true' "${file}"; then
+            DESKTOP_FILES=("${DESKTOP_FILES[@]}" "${file}")
         fi
     done
 }
-parse_desktop_files
+
+
+parse_desktop_files() {
+    get_desktop_files
+    #TODO
+}
 
 # Get main category of desktop file
 # $1 desktop file absolute path
-main_category() {
+# Return CATEGORY with the category of desktop file
+get_main_category() {
     local localpath=$1
     local aux
     aux=$(grep 'Categories' "${localpath}")
@@ -94,9 +109,20 @@ main_category() {
 
 # Get name of desktop file
 # $1 desktop file absolute path
-name() {
+# Return NAME with the name of the program in the desktop file
+get_name() {
     local localpath=$1
     local aux
-    aux=$(grep 'Categories' "${localpath}")
+    aux=$(grep 'Name' "${localpath}")
     NAME=${aux#*=}
+}
+
+# Get de executable of desktop file
+# $1 desktop file absolute path
+# Return EXECUTABLE with the executable
+get_exec() {
+    local localpath=$1
+    local aux
+    aux=$(grep 'TryExec' "${localpath}" || grep 'Exec' "${localpath}")
+    EXECUTABLE=${aux#*=}
 }
