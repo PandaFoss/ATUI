@@ -17,6 +17,7 @@ nano
 elinks
 w3m
 networkmanager
+rtorrent
 
 # System utilities
 bashtop
